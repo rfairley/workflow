@@ -1,2 +1,2 @@
 dnf install -y @buildsys-build dnf-plugins-core
-dnf install -y builddep pam
+dnf builddep -y pam
