@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mv $(ls "$(pwd)" | grep -v "$1") --target "$1"
+
