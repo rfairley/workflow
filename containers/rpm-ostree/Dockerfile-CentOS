@@ -1,8 +1,0 @@
-FROM registry.centos.org/centos
-
-RUN yum update -y && \
-    yum groupinstall -y "Development Tools" "Development Libraries" && \
-    yum install -y epel-release && \
-    yum-builddep rpm-ostree  && \
-    yum -y install ostree rsync ansible && \
-    yum clean all

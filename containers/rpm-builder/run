@@ -1,1 +1,0 @@
-podman run --name wft-rpm-builder --privileged -v $PWD:$PWD --net=host -ti fedora bash
