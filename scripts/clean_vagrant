@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -xeuo pipefail
+
+if ! [ -e _temp_vagrant_boxes.txt ]; then
+
+	vagrant box list > _temp_vagrant_boxes.txt
+
+	while read f; do
+		vagrant box remove -f --all $f
+	done < <(awk '{print $1}' _temp_vagrant_boxes.txt)
+
+	rm -f _temp_vagrant_boxes.txt
+else
+	echo "move or delete _temp_vagrant_boxes.txt!"
+fi
+

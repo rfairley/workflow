@@ -2,10 +2,7 @@
 
 set -xeo pipefail
 
-# Install RPM dependencies for build container
-
-
-use_internal=
+use_internal=true
 
 rcm_tools_repo_url="http://download.devel.redhat.com/rel-eng/internal/rcm-tools-fedora.repo"
 rcm_tools_repo="rcm-tools-fedora-rpms"
@@ -15,7 +12,7 @@ install_internal_rcm_tools() {
 	dnf config-manager --add-repo "${rcm_tools_repo_url}"
 	dnf config-manager --set-enabled "${rcm_tools_repo}"
 	${pkg_install} \
-		brewkoji
+		brewkoji \
 		rhpkg
 }
 
@@ -24,12 +21,16 @@ install_internal_rcm_tools() {
 
 dnf update -y
 
+# Dev dependencies
 ${pkg_install} \
 	@buildsys-build \
-	dnf-plugins-core
+	dnf-plugins-core \
+	golang \
+	git \
+	rust \
+        libblkid-devel # https://github.com/coreos/ignition/blob/master/doc/development.md#development
 
-# RPM build dependencies
-
+# RPM and other utils
 ${pkg_install} \
 	rpm-build \
 	rpm-devel \
@@ -40,44 +41,29 @@ ${pkg_install} \
 	diffutils \
 	patch \
 	rpmdevtools
-
 if [ -n "${use_internal}" ]; then
 	install_internal_rcm_tools
 fi
 
-
-# PAM dependencies
-
-${pkg_install} \
-	audit-libs-devel \
-	autoconf \
-	automake \
-	bison \
-	cracklib-devel \
-	docbook-dtds \
-	docbook-style-xsl \
-	elinks \
-	flex \
-	gettext-devel \
-	libdb-devel \
-	libnsl2-devel \
-	libselinux-devel \
-	libtirpc-devel \
-	libtool \
-	libxslt \
-	linuxdoc-tools
-
-
 # Project build dependencies
+
+# This list gets updated according to
+# projects I currently work on.
 
 # Further installation may be needed, e.g.
 # running ci/build.sh in rpm-ostree to get
 # test dependencies as well.
 
-dnf builddep -y ostree
-dnf builddep -y rpm-ostree
-dnf builddep -y pam
-dnf builddep -y systemd
+dnf builddep -y \
+	ostree \
+	rpm-ostree \
+	ignition \
+	console-login-helper-messages \
+	console-login-helper-messages-issuegen \
+	console-login-helper-messages-motdgen \
+	console-login-helper-messages-profile \
+	mantle
 
 
 dnf clean all
+
