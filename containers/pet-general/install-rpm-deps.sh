@@ -2,7 +2,7 @@
 
 set -xeo pipefail
 
-use_internal=true
+use_internal=
 
 rcm_tools_repo_url="http://download.devel.redhat.com/rel-eng/internal/rcm-tools-fedora.repo"
 rcm_tools_repo="rcm-tools-fedora-rpms"

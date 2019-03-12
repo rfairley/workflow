@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -exuo pipefail
+
+dnf install -y selinux-policy-targeted libselinux libselinux-python libselinux-utils policycoreutils policycoreutils-python setroubleshoot setroubleshoot-server setroubleshoot-plugins setools-console
