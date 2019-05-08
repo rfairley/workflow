@@ -53,6 +53,19 @@ cosa_local() {
     rc=$?; set +x; return $rc
 }
 
+# This command is the same as cosa() but pulling the cosa image from the `rhcos-4.1` stream.
+cosa_rhcos() {
+    env | grep COREOS_ASSEMBLER
+    set -x # so we can see what command gets run
+    sudo podman run --rm -ti -v ${PWD}:/srv/ --userns=host --device /dev/kvm --name cosa \
+               ${COREOS_ASSEMBLER_PRIVILEGED:+--privileged}                                          \
+               ${COREOS_ASSEMBLER_CONFIG_GIT:+-v $COREOS_ASSEMBLER_CONFIG_GIT:/srv/src/config/:ro}   \
+               ${COREOS_ASSEMBLER_GIT:+-v $COREOS_ASSEMBLER_GIT/src/:/usr/lib/coreos-assembler/:ro}  \
+               ${COREOS_ASSEMBLER_CONTAINER_RUNTIME_ARGS}                                            \
+               ${COREOS_ASSEMBLER_CONTAINER:-quay.io/coreos-assembler/coreos-assembler:rhcos-4.1} $@
+    rc=$?; set +x; return $rc
+}
+
 alias la="ls -a"
 alias ll="ls -alZ"
 alias lh="ls -lh"
