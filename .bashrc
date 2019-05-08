@@ -54,6 +54,7 @@ cosa_local() {
 }
 
 # This command is the same as cosa() but pulling the cosa image from the `rhcos-4.1` stream.
+# https://github.com/coreos/coreos-assembler/issues/482
 cosa_rhcos() {
     env | grep COREOS_ASSEMBLER
     set -x # so we can see what command gets run
