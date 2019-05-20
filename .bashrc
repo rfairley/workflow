@@ -18,6 +18,16 @@ export PATH
 
 # User specific aliases and functions
 
+export RFAIRLEY_DEV=$HOME/dev-rfairley
+export RFAIRLEY_REPOS=$RFAIRLEY_DEV/repos
+export PATH="$RFAIRLEY_REPOS/github.com/rfairley/workflow:$PATH"
+
+rfairley_set_up_workflow() {
+    mkdir -p $RFAIRLEY_REPOS/github.com/rfairley
+    git -C $RFAIRLEY_REPOS/github.com/rfairley clone https://github.com/rfairley/workflow
+    export PATH="$RFAIRLEY_REPOS/github.com/rfairley/workflow:$PATH"
+}
+
 cosa_mkdir() {
     workdir="${1}"
     sudo mkdir "${workdir}"
