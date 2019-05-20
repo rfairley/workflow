@@ -25,6 +25,7 @@ export PATH="$RFAIRLEY_REPOS/github.com/rfairley/workflow:$PATH"
 rfairley_set_up_workflow() {
     mkdir -p $RFAIRLEY_REPOS/github.com/rfairley
     git -C $RFAIRLEY_REPOS/github.com/rfairley clone https://github.com/rfairley/workflow
+    git -C -C $RFAIRLEY_REPOS/github.com/rfairley/workflow remote add rfairley git@github.com:rfairley/workflow
     export PATH="$RFAIRLEY_REPOS/github.com/rfairley/workflow:$PATH"
 }
 
