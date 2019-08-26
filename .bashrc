@@ -81,3 +81,12 @@ cosa_rhcos() {
 alias la="ls -a"
 alias ll="ls -alZ"
 alias lh="ls -lh"
+
+# From https://gist.github.com/nicktoumpelis/11214362
+git_rinse() {
+	git clean -xfd
+	git submodule foreach --recursive git clean -xfd
+	git reset --hard
+	git submodule foreach --recursive git reset --hard
+	git submodule update --init --recursive
+}
