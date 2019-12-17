@@ -113,6 +113,6 @@ rpmlocalbuild() {
         --define "_builddir $PWD/.build" \
         --define "_srcrpmdir $PWD/rpms" \
         --define "_rpmdir $PWD/rpms" \
-        --define "_buildrootdir $PWD/.buildroot" rust-afterburn.spec
+        --define "_buildrootdir $PWD/.buildroot" ${1}
     rm -rf "$PWD/.build"
 }
