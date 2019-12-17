@@ -90,3 +90,29 @@ git_rinse() {
 	git submodule foreach --recursive git reset --hard
 	git submodule update --init --recursive
 }
+
+gimme_fresh_container() {
+    mountdir=${2:-"$(pwd)/containerstuff"}
+    release=${1:-"rawhide"}
+    bashrc=${HOME}/.bashrc
+    podman run --privileged --net=host -v ${bashrc}:/root/.bashrc:ro -v "${mountdir}":"${mountdir}" -ti registry.fedoraproject.org/fedora:"${release}"
+}
+
+provision_for_rust_packaging() {
+    rust_packaging_deps="rust-packaging dnf-plugins-core python3-rust2rpm python3-solv cargo rust fedora-packager fedpkg krb5-workstation rpmdevtools rpm-build git"
+    dnf -y install ${rust_packaging_deps}
+    git config --global user.name "Robert Fairley"
+    git config --global user.email "rfairley@redhat.com"
+}
+
+# Idea: https://github.com/jlebon/files/blob/master/bin/rpmlocalbuild
+rpmlocalbuild() {
+    rpmbuild -ba \
+        --define "_sourcedir $PWD" \
+        --define "_specdir $PWD" \
+        --define "_builddir $PWD/.build" \
+        --define "_srcrpmdir $PWD/rpms" \
+        --define "_rpmdir $PWD/rpms" \
+        --define "_buildrootdir $PWD/.buildroot" rust-afterburn.spec
+    rm -rf "$PWD/.build"
+}
