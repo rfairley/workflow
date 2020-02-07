@@ -105,8 +105,8 @@ gimme_fresh_container() {
 provision_for_rust_packaging() {
     rust_packaging_deps="rust-packaging dnf-plugins-core python3-rust2rpm python3-solv cargo rust fedora-packager fedpkg krb5-workstation rpmdevtools rpm-build git"
     printnrun "dnf -y install ${rust_packaging_deps}"
-    printnrun "git config --global user.name 'Robert Fairley'"
-    printnrun "git config --global user.email 'rfairley@redhat.com'"
+    printnrun "git config --global user.name Robert Fairley"
+    printnrun "git config --global user.email rfairley@redhat.com"
 }
 
 # Idea: https://github.com/jlebon/files/blob/master/bin/rpmlocalbuild
