@@ -102,11 +102,22 @@ gimme_fresh_container() {
     printnrun "podman run --privileged --net=host -v ${bashrc}:/root/.bashrc:ro -v ${mountdir}:${mountdir} -ti registry.fedoraproject.org/fedora:${release}"
 }
 
-provision_for_rust_packaging() {
-    rust_packaging_deps="rust-packaging dnf-plugins-core python3-rust2rpm python3-solv cargo rust fedora-packager fedpkg krb5-workstation rpmdevtools rpm-build git"
-    printnrun "dnf -y install ${rust_packaging_deps}"
+provision_git_info() {
     printnrun "git config --global user.name Robert Fairley"
     printnrun "git config --global user.email rfairley@redhat.com"
+}
+
+rpm_tools="dnf-plugins-core fedora-packager fedpkg krb5-workstation rpmdevtools rpm-build git"
+rust_tools="rust-packaging python3-rust2rpm python3-solv cargo rust"
+
+provision_rpm_packaging() {
+    rpm_packaging_deps="${rpm_tools}"
+    printnrun "dnf -y install ${rpm_packaging_deps}"
+}
+
+provision_rust_packaging() {
+    rust_packaging_deps="${rust_tools} ${packaging_tools}"
+    printnrun "dnf -y install ${rust_packaging_deps}"
 }
 
 # Idea: https://github.com/jlebon/files/blob/master/bin/rpmlocalbuild
