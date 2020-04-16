@@ -91,20 +91,20 @@ git_rinse() {
 	git submodule update --init --recursive
 }
 
-printnrun() {
-    (set -x; ${1})
+printeval() {
+    (set -x; eval ${1})
 }
 
 gimme_fresh_container() {
     mountdir=${2:-"$(pwd)/containerstuff"}
     release=${1:-"rawhide"}
     bashrc=${HOME}/.bashrc
-    printnrun "podman run --privileged --net=host -v ${bashrc}:/root/.bashrc:ro -v ${mountdir}:${mountdir} -ti registry.fedoraproject.org/fedora:${release}"
+    printeval "podman run --privileged --net=host -v ${bashrc}:/root/.bashrc:ro -v ${mountdir}:${mountdir} -ti registry.fedoraproject.org/fedora:${release}"
 }
 
 provision_git_info() {
-    printnrun "git config --global user.name Robert Fairley"
-    printnrun "git config --global user.email rfairley@redhat.com"
+    printeval "git config --global user.name 'Robert Fairley'"
+    printeval "git config --global user.email rfairley@redhat.com"
 }
 
 rpm_tools="dnf-plugins-core fedora-packager fedpkg krb5-workstation rpmdevtools rpm-build git"
@@ -112,12 +112,12 @@ rust_tools="rust-packaging python3-rust2rpm python3-solv cargo rust"
 
 provision_rpm_packaging() {
     rpm_packaging_deps="${rpm_tools}"
-    printnrun "dnf -y install ${rpm_packaging_deps}"
+    printeval "dnf -y install ${rpm_packaging_deps}"
 }
 
 provision_rust_packaging() {
     rust_packaging_deps="${rust_tools} ${packaging_tools}"
-    printnrun "dnf -y install ${rust_packaging_deps}"
+    printeval "dnf -y install ${rust_packaging_deps}"
 }
 
 # Idea: https://github.com/jlebon/files/blob/master/bin/rpmlocalbuild
